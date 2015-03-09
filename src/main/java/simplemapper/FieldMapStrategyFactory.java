@@ -7,7 +7,7 @@ class FieldMapStrategyFactory {
 
 	public static FieldMapStrategy create(Object initialObject){
 		if(initialObject instanceof Collection){
-			return new SimpleReflectionMapStrategy();
+			return new CollectionReflectionMapStrategy();
 		}
 		else if (initialObject instanceof Map){
 			return new SimpleReflectionMapStrategy();

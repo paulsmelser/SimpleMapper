@@ -17,6 +17,7 @@ import entities.BarList;
 import entities.Foo;
 import entities.FooComplexList;
 import entities.FooList;
+import entities.FooNumberFieldResolver;
 import entities.ListFieldResolver;
 
 @Category(simplemapper.UnitTests.class)
@@ -61,6 +62,7 @@ public class MapperTest extends TestCase{
 	}
 	@Test
 	public void testMapWithComplexList() throws MapperException {
+		Mapper.createMap(Foo.class, Bar.class).forField("number", new FooNumberFieldResolver());
 		FooComplexList fooList = new FooComplexList();
 		fooList.setList(new ArrayList<Foo>(){/**
 			 * 
@@ -85,7 +87,7 @@ public class MapperTest extends TestCase{
 		
 		assertTrue(barList.getList().get(0) instanceof Bar);
 		assertEquals(barList.getList().get(0).getName(), "Hello");
-		assertEquals(barList.getList().get(0).getNum(), 0);
+		assertEquals(barList.getList().get(0).getNum(), 12345);
 	}
 	@Test
 	public void testMapWithCustomMappingForEachElement() throws MapperException{

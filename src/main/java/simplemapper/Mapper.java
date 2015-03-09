@@ -1,6 +1,5 @@
 package simplemapper;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
@@ -39,13 +38,14 @@ public class Mapper
 			MapperConfiguration<TS, TD> mapperConfig = (MapperConfiguration<TS, TD>) mappers.get(createKey(source.getClass(), destinationType));
 
 			for (Method method : source.getClass().getMethods()) {
+				if(mapperConfig != null){
 				FieldResolver<TS, TD> resolver = (FieldResolver<TS, TD>) mapperConfig.getResolver(method.getName().substring(3));
-				if(resolver != null){
-					resolver.resolve(source, destination);
+					if(resolver != null){
+						resolver.resolve(source, destination);
+						continue;
+					}
 				}
-				else{
-					ReflectionMapper.mapOneField(source, destinationType, destination, method);
-				}
+				ReflectionMapper.mapOneField(source, destinationType, destination, method);
 			}
 			if (mapperConfig != null && mapperConfig.getCustomMapping() != null){
 				mapperConfig.getCustomMapping().map(source, destination);

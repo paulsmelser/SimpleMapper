@@ -1,5 +1,5 @@
 package simplemapper;
 
 public interface FieldResolver <TS, TD>{
-	public void resolve(TS object, TD destination);
+	public void resolve(TS source, TD destination);
 }

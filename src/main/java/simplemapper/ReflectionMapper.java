@@ -45,7 +45,6 @@ class ReflectionMapper {
 			} catch (InvocationTargetException e) {
 				throw new MapperException(e);
 			}
-
 			FieldMapStrategy mapStrategy = FieldMapStrategyFactory.create(initialObject);
 			result = mapStrategy.map(initialObject, result, method);
 		}

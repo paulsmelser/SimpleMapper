@@ -12,8 +12,11 @@ public class FooComplexMapping implements CustomMapping<FooComplexList, BarCompl
 	@Override
 	public void map(FooComplexList source, BarComplexList destination) throws MapperException {
 		destination.setList(new ArrayList<Bar>());
-		for ( Foo foo : source.getList()){
-			destination.getList().add(Mapper.map(foo, Bar.class));
+		for ( final Foo foo : source.getList()){
+			destination.getList().add(new Bar(){{
+					setName(foo.getName());
+					setNum(foo.getNumber());
+				}});
 		}
 	}
 
