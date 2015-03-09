@@ -1,6 +1,6 @@
 package simplemapper;
 
-public class MapperConfiguration<TS, TD>
+class MapperConfiguration<TS, TD>
 {
 	private CustomMapping<TS, TD> customMapping;
 
@@ -10,7 +10,7 @@ public class MapperConfiguration<TS, TD>
 		return this;
 	}
 
-	public TD translate(TS source, TD destination)
+	public TD translate(TS source, TD destination) throws MapperException
 	{
 		if (customMapping != null) customMapping.map(source, destination);
 		return destination;

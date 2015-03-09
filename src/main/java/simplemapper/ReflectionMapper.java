@@ -9,26 +9,50 @@ class ReflectionMapper {
 
 	private static final Set<Class<?>> WRAPPER_TYPES = getWrapperTypes();
 	
-	public static <TTo> TTo map(Object from, Class<TTo> to) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, NoSuchFieldException{
-		TTo result = to.newInstance();
+	public static <TTo> TTo map(Object from, Class<TTo> to) throws MapperException{
+		TTo result = null;
+		try {
+			result = to.newInstance();
+
 
 			for(Method method : from.getClass().getMethods()){
-				try{
-					if (method.getName().startsWith("get") && check(to, method) && !isBaseMethod(method)){
-						String setterName = "set" + method.getName().substring(3);
-						result.getClass().getMethod(setterName, method.getReturnType()).invoke(result, method.invoke(from));
+					if (shouldMap(to, method)){
+						
+						Object initialObject = method.invoke(from);
+						ReflectionMapStrategy mapStrategy = ReflectionMapStrategyFactory.create(initialObject);
+						result = mapStrategy.map(result, initialObject, method);
+//						String setterName = "set" + method.getName().substring(3);
+//						
+//						if(initialObject instanceof Collection){
+//							for(Object o :(Collection<?>)  initialObject){
+//							}
+//						}
+//						
+//						result.getClass().getMethod(setterName, method.getReturnType()).invoke(result, initialObject);
 					}
-				}
-				catch(Exception e){
-					String setterName = "set" + method.getName().substring(3);
-					result.getClass().getMethod(setterName, method.getReturnType()).invoke(result, Mapper.map(method.invoke(from), result.getClass()));
-				}
 			}
+		} catch (InstantiationException e) {
+			throw new MapperException(e);
+		} catch (IllegalAccessException e) {
+			throw new MapperException(e);
+		} catch (IllegalArgumentException e) {
+			throw new MapperException(e);
+		} catch (InvocationTargetException e) {
+			throw new MapperException(e);
+		} catch (SecurityException e) {
+			throw new MapperException(e);
+		}
 
 		return result;
 	}
+
+
+	private static <TTo> boolean shouldMap(Class<TTo> to, Method method) {
+		return method.getName().startsWith("get") && isMatchingMethod(to, method) && !isBaseMethod(method);
+	}
 	
-	public static boolean check(Class<?> to, Method from){
+	
+	public static boolean isMatchingMethod(Class<?> to, Method from){
 		Method[] methods = to.getMethods();
 		for (Method m : methods){
 			if (m.getName().equals(from.getName())){

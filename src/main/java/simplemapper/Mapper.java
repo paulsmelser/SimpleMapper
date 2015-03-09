@@ -1,6 +1,5 @@
 package simplemapper;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class Mapper
@@ -28,11 +27,11 @@ public class Mapper
 		return tc;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public static <TS, TD> TD map(TS source, Class<TD> destinationType) throws InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchFieldException, SecurityException, InvocationTargetException, NoSuchMethodException
+	public static <TS, TD> TD map(TS source, Class<TD> destinationType) throws MapperException 
 	{
 		TD destination = ReflectionMapper.map(source, destinationType);
 
+		@SuppressWarnings("unchecked")
 		MapperConfiguration<TS, TD> mapperConfig = (MapperConfiguration<TS, TD>) mappers.get(createKey(source.getClass(), destinationType));
 		if (mapperConfig != null && mapperConfig.getCustomMapping() != null) mapperConfig.getCustomMapping().map(source, destination);
 		return destination;
