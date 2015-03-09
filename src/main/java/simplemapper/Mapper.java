@@ -1,10 +1,13 @@
 package simplemapper;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class Mapper
 {
 	private static HashMap<String, MapperConfiguration<?, ?>>  mappers;
+	
 	static
 	{
 		mappers = new HashMap<String, MapperConfiguration<?, ?>>();
@@ -26,14 +29,34 @@ public class Mapper
 		
 		return tc;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static <TS, TD> TD map(TS source, Class<TD> destinationType) throws MapperException 
 	{
-		TD destination = ReflectionMapper.map(source, destinationType);
+		TD destination = null;
+		try {
+			destination = destinationType.newInstance();
+			MapperConfiguration<TS, TD> mapperConfig = (MapperConfiguration<TS, TD>) mappers.get(createKey(source.getClass(), destinationType));
 
-		@SuppressWarnings("unchecked")
-		MapperConfiguration<TS, TD> mapperConfig = (MapperConfiguration<TS, TD>) mappers.get(createKey(source.getClass(), destinationType));
-		if (mapperConfig != null && mapperConfig.getCustomMapping() != null) mapperConfig.getCustomMapping().map(source, destination);
+			for (Method method : source.getClass().getMethods()) {
+				FieldResolver<TS, TD> resolver = (FieldResolver<TS, TD>) mapperConfig.getResolver(method.getName().substring(3));
+				if(resolver != null){
+					resolver.resolve(source, destination);
+				}
+				else{
+					ReflectionMapper.mapOneField(source, destinationType, destination, method);
+				}
+			}
+			if (mapperConfig != null && mapperConfig.getCustomMapping() != null){
+				mapperConfig.getCustomMapping().map(source, destination);
+			}
+		} catch (InstantiationException e) {
+			throw new MapperException(e);
+		} catch (IllegalAccessException e) {
+			throw new MapperException(e);
+		} catch (IllegalArgumentException e) {
+			throw new MapperException(e);
+		}
 		return destination;
 	}
 

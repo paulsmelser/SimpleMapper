@@ -17,6 +17,7 @@ import entities.BarList;
 import entities.Foo;
 import entities.FooComplexList;
 import entities.FooList;
+import entities.ListFieldResolver;
 
 @Category(simplemapper.UnitTests.class)
 public class MapperTest extends TestCase{
@@ -89,6 +90,24 @@ public class MapperTest extends TestCase{
 	@Test
 	public void testMapWithCustomMappingForEachElement() throws MapperException{
 		Mapper.createMap(FooComplexList.class, BarComplexList.class, new FooComplexMapping());
+		Mapper.createMap(Foo.class, Bar.class, new FooMapping());
+		
+		FooComplexList fooList = new FooComplexList();
+		fooList.setList(new ArrayList<Foo>(){/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+		{ add(new Foo("Hello", 12345));}});
+		BarComplexList barList = Mapper.map(fooList, BarComplexList.class);
+		
+		assertTrue(barList.getList().get(0) instanceof Bar);
+		assertEquals(barList.getList().get(0).getName(), "Hello");
+		assertEquals(barList.getList().get(0).getNum(), 12345);
+	}
+	@Test
+	public void testMapWithFieldResolver() throws MapperException{
+		Mapper.createMap(FooComplexList.class, BarComplexList.class).forField("list", new ListFieldResolver());;
 		Mapper.createMap(Foo.class, Bar.class, new FooMapping());
 		
 		FooComplexList fooList = new FooComplexList();

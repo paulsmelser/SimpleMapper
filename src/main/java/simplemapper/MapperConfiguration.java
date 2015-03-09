@@ -1,9 +1,13 @@
 package simplemapper;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class MapperConfiguration<TS, TD>
 {
 	private CustomMapping<TS, TD> customMapping;
-
+	private Map<String, FieldResolver<?, ?>> fieldResolvers = new HashMap<String, FieldResolver<?, ?>>();
+	
 	public MapperConfiguration<TS, TD> mapUsing(Class<? extends CustomMapping<TS, TD>> t) throws InstantiationException, IllegalAccessException
 	{
 		setCustomMapping(t.newInstance());
@@ -22,5 +26,14 @@ class MapperConfiguration<TS, TD>
 
 	public void setCustomMapping(CustomMapping<TS, TD> customMapping) {
 		this.customMapping = customMapping;
+	}
+	
+	public void forField(String sourceFieldName, FieldResolver<?, ?> fieldResolver){
+		
+		fieldResolvers.put(sourceFieldName.toLowerCase(), fieldResolver);
+	}
+	
+	public FieldResolver<?, ?> getResolver(String fieldName){
+		return fieldResolvers.get(fieldName.toLowerCase());
 	}
 }
