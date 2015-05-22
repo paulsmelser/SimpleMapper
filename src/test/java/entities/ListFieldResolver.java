@@ -2,6 +2,8 @@ package entities;
 
 import simplemapper.FieldResolver;
 
+import java.util.ArrayList;
+
 public class ListFieldResolver implements FieldResolver<FooComplexList, BarComplexList>{
 
 	@Override
@@ -11,6 +13,9 @@ public class ListFieldResolver implements FieldResolver<FooComplexList, BarCompl
 				setName(foo.getName());
 				setNum(foo.getNumber());
 			}};
+            if(destination.getList() == null){
+                destination.setList(new ArrayList<Bar>());
+            }
 			destination.getList().add(bar);
 		}
 	}

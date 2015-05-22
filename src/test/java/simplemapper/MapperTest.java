@@ -109,7 +109,7 @@ public class MapperTest extends TestCase{
 	}
 	@Test
 	public void testMapWithFieldResolver() throws MapperException{
-		Mapper.createMap(FooComplexList.class, BarComplexList.class).forField("list", new ListFieldResolver());;
+		Mapper.createMap(FooComplexList.class, BarComplexList.class).forField("list", new ListFieldResolver());
 		Mapper.createMap(Foo.class, Bar.class, new FooMapping());
 		
 		FooComplexList fooList = new FooComplexList();

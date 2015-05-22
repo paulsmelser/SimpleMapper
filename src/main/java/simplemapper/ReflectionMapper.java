@@ -11,7 +11,7 @@ class ReflectionMapper {
 
 	public static <TTo> TTo map(Object from, Class<TTo> to)
 			throws MapperException {
-		TTo result = null;
+		TTo result;
 		try {
 			result = to.newInstance();
 			for (Method method : from.getClass().getMethods()) {
@@ -73,7 +73,10 @@ class ReflectionMapper {
 	}
 
 	private static boolean isBaseMethod(Method from) {
-		return from.getName().equals("getClass");
+
+        return com.google.common.base.Objects.equal(from.getName(), "getClass")
+                || com.google.common.base.Objects.equal(from.getName(), "getChars")
+                || com.google.common.base.Objects.equal(from.getName(), "getBytes");
 	}
 
 	private static Set<Class<?>> getWrapperTypes() {

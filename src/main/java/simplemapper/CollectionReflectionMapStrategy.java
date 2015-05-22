@@ -22,7 +22,7 @@ class CollectionReflectionMapStrategy implements FieldMapStrategy {
 
 	    if (getMethod.invoke(to) == null) {
 		to.getClass().getMethod("set" + property, getMethod.getReturnType())
-			.invoke(to, new ArrayList<>());
+			.invoke(to, new ArrayList<Object>());
 	    }
 	    if (from instanceof Collection) {
 		for (Object o : (Collection<?>) from) {
