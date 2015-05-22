@@ -1,1 +1,10 @@
 target/**
+.classpath
+*.iml
+.springBeans
+.idea/**
+.settings/**
+*.eml
+local.properties
+classes
+*/build/*
