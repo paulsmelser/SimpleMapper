@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 
 class SimpleReflectionMapStrategy implements FieldMapStrategy{
 
-	@Override
 	public <R, T> R map(T from, R to, Method method) throws MapperException{
 		String setterName = "set" + method.getName().substring(3);
 		try {

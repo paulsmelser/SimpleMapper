@@ -10,7 +10,6 @@ import java.util.Collection;
 class CollectionReflectionMapStrategy implements FieldMapStrategy {
 
     @SuppressWarnings({ "unchecked" })
-    @Override
     public <R, T> R map(T from, R to, Method method) throws MapperException {
 	try {
 	    String property = method.getName().substring(3);
