@@ -1,2 +1,10 @@
-target/**
-.idea/*
+t**/target
+ .classpath
+ *.iml
+ .springBeans
+ .idea/
+ .settings/
+ *.eml
+ local.properties
+ classes
+ */build/*

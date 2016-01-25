@@ -32,7 +32,7 @@ public class Mapper
 	@SuppressWarnings("unchecked")
 	public static <TS, TD> TD map(TS source, Class<TD> destinationType) throws MapperException 
 	{
-		TD destination = null;
+		TD destination;
 		try {
 			destination = destinationType.newInstance();
 			MapperConfiguration<TS, TD> mapperConfig = (MapperConfiguration<TS, TD>) mappers.get(createKey(source.getClass(), destinationType));
