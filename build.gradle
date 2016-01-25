@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
-//apply plugin: 'git-repo'
+apply plugin: 'surefire'
 
 group = 'com.smelser'
 version = '0.0.1'
@@ -19,5 +19,12 @@ dependencies{
 uploadArchives {
     repositories.mavenDeployer {
         repository(url: "file:///Users/paulsmelser/workspace/maven-repo/")
+    }
+}
+
+test {
+    testLogging {
+        exceptionFormat "full"
+        events "started", "passed", "skipped", "failed", "standardOut", "standardError"
     }
 }
