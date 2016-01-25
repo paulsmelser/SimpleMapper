@@ -29,19 +29,9 @@ class CollectionReflectionMapStrategy implements FieldMapStrategy {
 		    ((Collection<Object>) getMethod.invoke(to)).add(Mapper.map(o, stringListClass));
 		}
 	    }
-	} catch (IllegalArgumentException e) {
-	    throw new MapperException(e);
-	} catch (SecurityException e) {
-	    throw new MapperException(e);
-	} catch (NoSuchFieldException e) {
-	    throw new MapperException(e);
-	} catch (NoSuchMethodException e) {
-	    throw new MapperException(e);
-	} catch (IllegalAccessException e) {
-	    throw new MapperException(e);
-	} catch (InvocationTargetException e) {
+	} catch (IllegalArgumentException | SecurityException | NoSuchMethodException | NoSuchFieldException | InvocationTargetException | IllegalAccessException e) {
 	    throw new MapperException(e);
 	}
-	return to;
+		return to;
     }
 }
