@@ -1,9 +1,9 @@
-target/**
+**/target
 .classpath
 *.iml
 .springBeans
-.idea/**
-.settings/**
+.idea/
+.settings/
 *.eml
 local.properties
 classes
