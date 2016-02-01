@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.smelser</groupId>
+  <artifactId>simple-mapper</artifactId>
+  <version>master-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20160201.220110</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20160201220110</lastUpdated>
+  </versioning>
+</metadata>
