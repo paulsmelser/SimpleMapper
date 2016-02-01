@@ -12,7 +12,8 @@ buildscript {
 
 apply plugin: 'java'
 //apply plugin: 'idea'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
+//apply plugin: 'maven'
 apply plugin: 'release'
 
 group = 'com.smelser'
@@ -25,7 +26,7 @@ release {
 //    username = 'fred'
 //    password = 'secret01'
 }
-version = release.projectVersion
+version = '1.0.1' //release.projectVersion
 
 
 repositories {
@@ -38,10 +39,27 @@ dependencies{
 }
 
 
-uploadArchives {
-    repositories.mavenDeployer {
-//        repository(url: "https://github.com/paulsmelser/maven-repo/raw/master/")
-        repository(url: "file:///${System.properties['user.home']}/workspace/maven-repo/")
+//uploadArchives {
+//    repositories.mavenDeployer {
+////        repository(url: "https://github.com/paulsmelser/maven-repo/raw/master/")
+//        repository(url: "file:///${System.properties['user.home']}/workspace/maven-repo/")
+//    }
+//}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            version project.version
+            from components.java
+        }
+    }
+}
+publishing {
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "file:///${System.properties['user.home']}/workspace/maven-repo/"
+        }
     }
 }
 
