@@ -45,8 +45,8 @@ afterReleaseBuild.dependsOn uploadArchives
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: "https://github.com/paulsmelser/maven-repo")
-//        repository(url: "file:///${System.properties['user.home']}/workspace/maven-repo/")
+//        repository(url: "https://github.com/paulsmelser/maven-repo")
+        repository(url: "file:///${System.properties['user.home']}/workspace/maven-repo/")
     }
 }
 //
