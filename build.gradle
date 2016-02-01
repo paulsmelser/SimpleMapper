@@ -13,10 +13,9 @@ buildscript {
 }
 
 apply plugin: 'java'
-//apply plugin: 'idea'
 apply plugin: 'maven-publish'
 apply plugin: 'net.researchgate.release'
-apply plugin: 'maven'
+apply plugin: 'build-dashboard'
 //apply plugin: 'release'
 
 group = 'com.smelser'
@@ -41,32 +40,27 @@ dependencies{
     testCompile "junit:junit:4.11"
 }
 
-afterReleaseBuild.dependsOn uploadArchives
+afterReleaseBuild.dependsOn publish
 
-uploadArchives {
-    repositories.mavenDeployer {
-//        repository(url: "https://github.com/paulsmelser/maven-repo")
-        repository(url: "file:///${System.properties['user.home']}/workspace/maven-repo/")
+//uploadArchives {
+//    repositories.mavenDeployer {
+////        repository(url: "https://github.com/paulsmelser/maven-repo")
+//        repository(url: "file:///${System.properties['user.home']}/workspace/maven-repo/")
+//    }
+//}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            version project.version
+            from components.java
+        }
+    }
+    repositories{
+        maven {
+            url "file:///${System.properties['user.home']}/workspace/maven-repo/" }
     }
 }
-//
-//publishing {
-//    publications {
-//        mavenJava(MavenPublication) {
-//            version project.version
-//            from components.java
-//        }
-//    }
-//}
-//publishing {
-//    repositories {
-//        maven {
-//            // change to point to your repo, e.g. http://my.org/repo
-////            url "file:///${System.properties['user.home']}/workspace/maven-repo/"
-//            url "scm://github.com/paulsmelser/maven-repo/raw/master/"
-//        }
-//    }
-//}
 
 test {
     testLogging {
