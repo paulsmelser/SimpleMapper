@@ -1,10 +1,12 @@
 buildscript {
     dependencies {
         classpath 'au.com.ish.gradle:release:2.2.2'
+        classpath 'net.researchgate:gradle-release:2.3.4'
     }
     repositories {
 //        maven { url "https://github.com/paulsmelser/maven-repo/raw/master/" }
         maven { url 'http://maven.tmatesoft.com/content/repositories/releases/' }
+        maven { url 'https://plugins.gradle.org/m2/' }
         mavenLocal()
         mavenCentral()
     }
@@ -13,20 +15,21 @@ buildscript {
 apply plugin: 'java'
 //apply plugin: 'idea'
 apply plugin: 'maven-publish'
-//apply plugin: 'maven'
-apply plugin: 'release'
+apply plugin: 'net.researchgate.release'
+apply plugin: 'maven'
+//apply plugin: 'release'
 
 group = 'com.smelser'
 
-release {
-    failOnSnapshotDependencies = true
-    allowLocalModifications = false
-    releaseDryRun = false
-    scm = 'git'
-//    username = 'fred'
-//    password = 'secret01'
-}
-version = '1.0.1' //release.projectVersion
+//release {
+//    failOnSnapshotDependencies = true
+//    allowLocalModifications = false
+//    releaseDryRun = false
+//    scm = 'git'
+//    username = mavenUser
+//    password = mavenPassword
+//}
+//version = '1.0.1' //release.projectVersion
 
 
 repositories {
@@ -38,30 +41,32 @@ dependencies{
     testCompile "junit:junit:4.11"
 }
 
+afterReleaseBuild.dependsOn uploadArchives
 
-//uploadArchives {
-//    repositories.mavenDeployer {
-////        repository(url: "https://github.com/paulsmelser/maven-repo/raw/master/")
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "https://github.com/paulsmelser/maven-repo")
 //        repository(url: "file:///${System.properties['user.home']}/workspace/maven-repo/")
+    }
+}
+//
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            version project.version
+//            from components.java
+//        }
 //    }
 //}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            version project.version
-            from components.java
-        }
-    }
-}
-publishing {
-    repositories {
-        maven {
-            // change to point to your repo, e.g. http://my.org/repo
-            url "file:///${System.properties['user.home']}/workspace/maven-repo/"
-        }
-    }
-}
+//publishing {
+//    repositories {
+//        maven {
+//            // change to point to your repo, e.g. http://my.org/repo
+////            url "file:///${System.properties['user.home']}/workspace/maven-repo/"
+//            url "scm://github.com/paulsmelser/maven-repo/raw/master/"
+//        }
+//    }
+//}
 
 test {
     testLogging {
