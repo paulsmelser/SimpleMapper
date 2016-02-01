@@ -7,4 +7,4 @@
  *.eml
  local.properties
  classes
- */build/*
+ **/build

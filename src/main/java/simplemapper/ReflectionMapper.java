@@ -17,13 +17,7 @@ class ReflectionMapper {
 			for (Method method : from.getClass().getMethods()) {
 			result = mapOneField(from, to, result, method);
 			}
-		} catch (InstantiationException e) {
-			throw new MapperException(e);
-		} catch (IllegalAccessException e) {
-			throw new MapperException(e);
-		} catch (IllegalArgumentException e) {
-			throw new MapperException(e);
-		} catch (SecurityException e) {
+		} catch (InstantiationException | IllegalAccessException | SecurityException | IllegalArgumentException e) {
 			throw new MapperException(e);
 		}
 
@@ -38,11 +32,7 @@ class ReflectionMapper {
 
 			try {
 				initialObject = method.invoke(from);
-			} catch (IllegalAccessException e) {
-				throw new MapperException(e);
-			} catch (IllegalArgumentException e) {
-				throw new MapperException(e);
-			} catch (InvocationTargetException e) {
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				throw new MapperException(e);
 			}
 			FieldMapStrategy mapStrategy = FieldMapStrategyFactory.create(initialObject);

@@ -1,9 +1,32 @@
+buildscript {
+    dependencies {
+        classpath 'au.com.ish.gradle:release:2.2.2'
+    }
+    repositories {
+//        maven { url "https://github.com/paulsmelser/maven-repo/raw/master/" }
+        maven { url 'http://maven.tmatesoft.com/content/repositories/releases/' }
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
 apply plugin: 'java'
+//apply plugin: 'idea'
 apply plugin: 'maven'
-apply plugin: 'idea'
+apply plugin: 'release'
 
 group = 'com.smelser'
-version = '0.0.1'
+
+release {
+    failOnSnapshotDependencies = true
+    allowLocalModifications = false
+    releaseDryRun = false
+    scm = 'git'
+//    username = 'fred'
+//    password = 'secret01'
+}
+version = release.projectVersion
+
 
 repositories {
     mavenCentral()
@@ -17,6 +40,7 @@ dependencies{
 
 uploadArchives {
     repositories.mavenDeployer {
+//        repository(url: "https://github.com/paulsmelser/maven-repo/raw/master/")
         repository(url: "file:///Users/paulsmelser/workspace/maven-repo/")
     }
 }
