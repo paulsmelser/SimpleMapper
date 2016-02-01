@@ -12,24 +12,21 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'net.researchgate.release'
-apply plugin: 'build-dashboard'
-//apply plugin: 'release'
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'pl.allegro.tech.build.axion-release' version '1.3.4'
+}
+
+scmVersion {
+    tag {
+        prefix = 'simple-mapper'
+    }
+}
+
+project.version = scmVersion.version
 
 group = 'com.smelser'
-
-//release {
-//    failOnSnapshotDependencies = true
-//    allowLocalModifications = false
-//    releaseDryRun = false
-//    scm = 'git'
-//    username = mavenUser
-//    password = mavenPassword
-//}
-//version = '1.0.1' //release.projectVersion
-
 
 repositories {
     mavenCentral()
@@ -40,7 +37,7 @@ dependencies{
     testCompile "junit:junit:4.11"
 }
 
-afterReleaseBuild.dependsOn publish
+//afterReleaseBuild.dependsOn publish
 
 //uploadArchives {
 //    repositories.mavenDeployer {
