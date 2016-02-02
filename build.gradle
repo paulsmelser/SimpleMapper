@@ -22,6 +22,7 @@ scmVersion {
     tag {
         prefix = 'release'
     }
+    ignoreUncommittedChanges = true
 }
 
 project.version = scmVersion.version
