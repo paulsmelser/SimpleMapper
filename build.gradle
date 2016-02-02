@@ -20,7 +20,8 @@ plugins {
 
 scmVersion {
     tag {
-        prefix = 'simple-mapper'
+//        prefix = 'simple-mapper'
+        suffix = "RELEASE"
     }
 }
 
