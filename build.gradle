@@ -1,12 +1,5 @@
 buildscript {
-    dependencies {
-//        classpath 'au.com.ish.gradle:release:2.2.2'
-//        classpath 'net.researchgate:gradle-release:2.3.4'
-    }
     repositories {
-//        maven { url "https://github.com/paulsmelser/maven-repo/raw/master/" }
-//        maven { url 'http://maven.tmatesoft.com/content/repositories/releases/' }
-//        maven { url 'https://plugins.gradle.org/m2/' }
         mavenLocal()
         mavenCentral()
     }
@@ -38,14 +31,6 @@ dependencies{
     testCompile "junit:junit:4.11"
 }
 
-//afterReleaseBuild.dependsOn publish
-
-//uploadArchives {
-//    repositories.mavenDeployer {
-////        repository(url: "https://github.com/paulsmelser/maven-repo")
-//        repository(url: "file:///${System.properties['user.home']}/workspace/maven-repo/")
-//    }
-//}
 
 publishing {
     publications {
