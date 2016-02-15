@@ -35,8 +35,7 @@ class ReflectionMapperSpec extends Specification {
             def barList = map(fooList, BarList.class)
         then:
             assertAllTrue(fooList.getList(), barList.getList(), { left, right ->
-                (!left.getNumber().equals(right.getNum())
-                        && left.getName().equals(right.getName()))
+                left.equals(right)
             })
     }
 
