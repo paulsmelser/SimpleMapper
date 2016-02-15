@@ -1,4 +1,4 @@
-package entities;
+package simplemapper.testsupport.entities;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ public class BarComplexList {
     private List<Bar> list;
 
     public List<Bar> getList() {
-	return list;
+        return list;
     }
 
     public void setList(List<Bar> list) {
-	this.list = list;
+        this.list = list;
     }
 }

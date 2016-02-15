@@ -6,8 +6,9 @@ import java.util.Map;
 class MapperConfiguration<TS, TD>
 {
 	private CustomMapping<TS, TD> customMapping;
-	private Map<String, FieldResolver<?, ?>> fieldResolvers = new HashMap<String, FieldResolver<?, ?>>();
-	
+	private Map<String, FieldResolver<TS, TD>> fieldResolvers = new HashMap<>();
+	private Map<String, FieldMapping<TS, TD>> fieldMappings= new HashMap<>();
+
 	public MapperConfiguration<TS, TD> mapUsing(Class<? extends CustomMapping<TS, TD>> t) throws InstantiationException, IllegalAccessException
 	{
 		setCustomMapping(t.newInstance());
@@ -28,12 +29,21 @@ class MapperConfiguration<TS, TD>
 		this.customMapping = customMapping;
 	}
 	
-	public void forField(String sourceFieldName, FieldResolver<?, ?> fieldResolver){
-		
+	public MapperConfiguration forField(String sourceFieldName, FieldResolver<TS, TD> fieldResolver){
 		fieldResolvers.put(sourceFieldName.toLowerCase(), fieldResolver);
+		return this;
+	}
+
+	public MapperConfiguration forField(String sourceFieldName, FieldMapping<TS, TD> fieldMapping){
+		fieldMappings.put(sourceFieldName, fieldMapping);
+		return this;
 	}
 	
-	public FieldResolver<?, ?> getResolver(String fieldName){
+	public FieldResolver<TS, TD> getFieldResolver(String fieldName){
 		return fieldResolvers.get(fieldName.toLowerCase());
+	}
+
+	public FieldMapping<TS, TD> getFieldMapper(String fieldName){
+		return fieldMappings.get(fieldName);
 	}
 }

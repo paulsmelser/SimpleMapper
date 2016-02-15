@@ -3,6 +3,7 @@
  *.iml
  .springBeans
  .idea/
+ .idea/**
  .settings/
  *.eml
  local.properties

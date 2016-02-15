@@ -20,13 +20,18 @@ class CollectionReflectionMapStrategy implements FieldMapStrategy {
 	    Method getMethod = to.getClass().getMethod(method.getName());
 
 	    if (getMethod.invoke(to) == null) {
-		to.getClass().getMethod("set" + property, getMethod.getReturnType())
-			.invoke(to, new ArrayList<Object>());
+			to.getClass().getMethod("set" + property, getMethod.getReturnType())
+				.invoke(to, new ArrayList<>());
 	    }
 	    if (from instanceof Collection) {
-		for (Object o : (Collection<?>) from) {
-		    ((Collection<Object>) getMethod.invoke(to)).add(Mapper.map(o, stringListClass));
-		}
+			for (Object o : (Collection<?>) from) {
+				if (o.getClass().equals(stringListClass) || o.getClass().isAssignableFrom(stringListClass)){
+					((Collection<Object>) getMethod.invoke(to)).add(o);
+				}
+				else {
+					((Collection<Object>) getMethod.invoke(to)).add(Mapper.map(o, stringListClass));
+				}
+			}
 	    }
 	} catch (IllegalArgumentException | SecurityException | NoSuchMethodException | NoSuchFieldException | InvocationTargetException | IllegalAccessException e) {
 	    throw new MapperException(e);
