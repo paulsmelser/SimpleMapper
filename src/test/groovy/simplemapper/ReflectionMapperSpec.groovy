@@ -34,7 +34,10 @@ class ReflectionMapperSpec extends Specification {
         when:
             def barList = map(fooList, BarList.class)
         then:
-            assertAllTrue(fooList.getList(), barList.getList(), checkThatListItemsAreAllEqual())
+            assertAllTrue(fooList.getList(), barList.getList(), { left, right ->
+                (!left.getNumber().equals(right.getNum())
+                        && left.getName().equals(right.getName()))
+            })
     }
 
     def "when a single item is mapping is correct"(){
