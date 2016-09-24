@@ -1,11 +1,4 @@
-**/target
- .classpath
- *.iml
- .springBeans
- .idea/
- .idea/**
- .settings/
- *.eml
- local.properties
- classes
- **/build
+*.iml
+.idea/
+.idea/**
+build/
