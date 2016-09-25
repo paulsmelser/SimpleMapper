@@ -4,7 +4,7 @@ import static junit.framework.TestCase.assertTrue
 
 /**
  * Created by psmelser on 2016-02-14.
- * @author paul.smelser@esignlive.com
+ * @author paul.smelser@gmail.com
  */
 class Assert {
     static def <E, A> void assertAllTrue(List<E> expectedList, List<A> actualList, Closure<Boolean> closure){
