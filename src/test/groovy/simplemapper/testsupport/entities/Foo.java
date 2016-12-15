@@ -12,13 +12,15 @@ public class Foo{
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+    public Foo setName(String name) {
         this.name = name;
+        return this;
     }
     public int getNumber() {
         return number;
     }
-    public void setNumber(int number) {
+    public Foo setNumber(int number) {
         this.number = number;
+        return this;
     }
 }

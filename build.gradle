@@ -1,19 +1,20 @@
 buildscript {
     repositories {
         mavenLocal()
-        mavenCentral()
+        jcenter()
     }
 }
 
 plugins {
     id 'groovy'
-    id 'maven-publish'
+	id 'maven-publish'
+	id "com.jfrog.bintray" version "1.7.3"
     id 'pl.allegro.tech.build.axion-release' version '1.3.4'
 }
 
 scmVersion {
     tag {
-        prefix = 'release'
+        prefix = 'simple-mapper'
     }
     ignoreUncommittedChanges = true
 }
@@ -23,7 +24,7 @@ project.version = scmVersion.version
 group = 'com.smelser'
 
 repositories {
-    mavenCentral()
+	jcenter()
 }
 
 dependencies{
@@ -38,17 +39,33 @@ dependencies{
 }
 
 
+bintray {
+	pkg {
+		repo = 'simple-mapper'
+		name = 'simple-mapper'
+		userOrg = 'psmelser'
+		licenses = ['Apache-2.0']
+		vcsUrl = 'https://github.com/paulsmelser/simple-mapper.git'
+		publications = ['mavenJava']
+		version {
+			name = '0.1.2'
+			released  = new Date()
+			vcsTag = 'release-0.1.2'
+		}
+	}
+}
+
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            version project.version
-            from components.java
-        }
-    }
-    repositories{
-        maven {
-            url "file:///${System.properties['user.home']}/workspace/maven-repo/" }
-    }
+	publications {
+		mavenJava(MavenPublication) {
+			version project.version
+			from components.java
+		}
+	}
+	repositories{
+		maven {
+			url "https://dl.bintray.com/psmelser/simple-mapper" }
+	}
 }
 
 test {

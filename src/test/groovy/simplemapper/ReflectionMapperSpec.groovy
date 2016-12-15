@@ -101,7 +101,8 @@ class ReflectionMapperSpec extends Specification {
 
     def "test field mapping handler2"(){
         given:
-            createMap(FooComplexList.class, BarComplexList.class).forField ("number", {source, destination ->for(int i = 0; i != source.getList().size(); i++){
+            createMap(FooComplexList.class, BarComplexList.class)
+                    .forField("number", {source, destination ->for(int i = 0; i != source.getList().size(); i++){
                 destination.getList().get(i).setNum(source.getList().get(i).getNumber());
             }})
             createMap(Foo.class, Bar.class, new FooMapping())

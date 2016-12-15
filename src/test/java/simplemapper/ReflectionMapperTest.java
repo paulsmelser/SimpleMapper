@@ -11,10 +11,11 @@ import simplemapper.testsupport.entities.FooComplexList;
 public class ReflectionMapperTest {
 
     @Test
-    public void test(){
-        createMap(Foo.class, Bar.class).forField("number", (s, d) -> {
-            d.setNum(s.getNumber());
-        });
+    public void test() throws MapperException {
+        createMap(Foo.class, Bar.class).forField("number", (s, d) -> d.setNum(s.getNumber()));
+        createMap(Bar.class, Foo.class).forField("num", (s, d) -> d.setNumber(s.getNum()));
+
+        Bar psul = Mapper.map(new Foo().setName("Psul").setNumber(1), Bar.class);
         FooComplexList hello = FooComplexList.newInstance(new Foo("Hello", 12345));
     }
 
