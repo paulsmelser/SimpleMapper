@@ -34,7 +34,6 @@ dependencies{
     testRuntime "org.objenesis:objenesis:2.1"
 }
 
-
 bintray {
 	user = "psmelser"
 	key = "43c87e5176c2b2f69b79f7dbd35bb5211244250b"
