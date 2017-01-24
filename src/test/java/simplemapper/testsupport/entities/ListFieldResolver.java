@@ -1,8 +1,8 @@
 package simplemapper.testsupport.entities;
 
-import simplemapper.FieldResolver;
-
 import java.util.ArrayList;
+
+import simplemapper.FieldResolver;
 
 public class ListFieldResolver implements FieldResolver<FooComplexList, BarComplexList>{
 

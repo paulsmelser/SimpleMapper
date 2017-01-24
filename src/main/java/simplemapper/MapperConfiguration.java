@@ -1,13 +1,18 @@
 package simplemapper;
 
+import static com.google.common.collect.Maps.newHashMap;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 class MapperConfiguration<TS, TD>
 {
 	private CustomMapping<TS, TD> customMapping;
-	private Map<String, FieldResolver<TS, TD>> fieldResolvers = new HashMap<>();
-	private Map<String, FieldMapping<TS, TD>> fieldMappings= new HashMap<>();
+	private Map<String, FieldResolver<TS, TD>> fieldResolvers = newHashMap();
+//    private Map<String, BiConsumer<TS, TD>> lambdaFieldResolvers = newHashMap();
 
 	public MapperConfiguration<TS, TD> mapUsing(Class<? extends CustomMapping<TS, TD>> t) throws InstantiationException, IllegalAccessException
 	{
@@ -34,16 +39,12 @@ class MapperConfiguration<TS, TD>
 		return this;
 	}
 
-	public MapperConfiguration forField(String sourceFieldName, FieldMapping<TS, TD> fieldMapping){
-		fieldMappings.put(sourceFieldName, fieldMapping);
-		return this;
-	}
 	
 	public FieldResolver<TS, TD> getFieldResolver(String fieldName){
 		return fieldResolvers.get(fieldName.toLowerCase());
 	}
 
-	public FieldMapping<TS, TD> getFieldMapper(String fieldName){
-		return fieldMappings.get(fieldName);
-	}
+//    public BiConsumer<TS, TD> getLambdaFieldResolver(String fieldName) {
+//        return lambdaFieldResolvers.get(fieldName);
+//    }
 }

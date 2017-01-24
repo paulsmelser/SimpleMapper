@@ -9,11 +9,11 @@ public class Mapper
 	
 	static
 	{
-		mappers = new HashMap<String, MapperConfiguration<?, ?>>();
+		mappers = new HashMap<>();
 	}
 	public static <TS, TD> MapperConfiguration<TS, TD> createMap(Class<TS> source, Class<TD> destination)
 	{
-		MapperConfiguration<TS, TD> tc = new MapperConfiguration<TS, TD>();
+		MapperConfiguration<TS, TD> tc = new MapperConfiguration<>();
 		
 		mappers.put(createKey(source, destination), tc);
 		return tc;
@@ -21,7 +21,7 @@ public class Mapper
 
 	public static <TS, TD> MapperConfiguration<TS, TD> createMap(Class<TS> source, Class<TD> destination, CustomMapping<TS, TD> config)
 	{
-		MapperConfiguration<TS, TD> tc = new MapperConfiguration<TS, TD>();
+		MapperConfiguration<TS, TD> tc = new MapperConfiguration<>();
 		tc.setCustomMapping(config);
 		
 		mappers.put(createKey(source, destination), tc);
@@ -52,22 +52,21 @@ public class Mapper
 
 	private static <TS, TD> boolean mapFromConfigIfExists(TS source, TD destination, MapperConfiguration<TS, TD> mapperConfig, Method method) {
 		if(mapperConfig != null){
-        	FieldResolver<TS, TD> resolver = mapperConfig.getFieldResolver(method.getName().substring(3));
+        	FieldResolver<TS, TD> resolver = mapperConfig.getFieldResolver(getPropertyName(method));
             if(resolver != null){
                 resolver.resolve(source, destination);
 				return true;
             }
-			FieldMapping<TS, TD> fieldMapping = mapperConfig.getFieldMapper(method.getName().substring(3));
-			if(fieldMapping != null){
-				fieldMapping.map(source, destination);
-                return true;
-			}
         }
 		return false;
 	}
 
-	private static <TS, TD> String createKey(Class<TS> ts, Class<TD> td)
+    private static <TS, TD> String createKey(Class<TS> ts, Class<TD> td)
 	{
 		return String.format("%s%s", ts.getSimpleName(), td.getSimpleName());
 	}
+
+    private static String getPropertyName(Method method) {
+        return method.getName().substring(3);
+    }
 }

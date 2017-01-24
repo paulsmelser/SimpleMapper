@@ -1,13 +1,6 @@
 package simplemapper
 
-import simplemapper.testsupport.entities.Bar
-import simplemapper.testsupport.entities.BarComplexList
-import simplemapper.testsupport.entities.BarList
-import simplemapper.testsupport.entities.Foo
-import simplemapper.testsupport.entities.FooComplexList
-import simplemapper.testsupport.entities.FooList
-import simplemapper.testsupport.entities.FooNumberFieldResolver
-import simplemapper.testsupport.entities.ListFieldResolver
+import simplemapper.testsupport.entities.*
 import simplemapper.testsupport.setup.FieldMappingHelper
 import simplemapper.testsupport.setup.FooComplexMapping
 import simplemapper.testsupport.setup.FooMapping
@@ -60,8 +53,6 @@ class ReflectionMapperSpec extends Specification {
             assertAllTrue(fooList.getList(), barList.getList(), checkThatListItemsAreAllEqual())
     }
 
-
-
     def "test custom mapping configuration"(){
         given:
             createMap(FooComplexList.class, BarComplexList.class, new FooComplexMapping())
@@ -99,6 +90,21 @@ class ReflectionMapperSpec extends Specification {
     def "test field mapping handler"(){
         given:
             createMap(FooComplexList.class, BarComplexList.class).forField ("number", FieldMappingHelper.getFooComplexListToBarComplexListNumberMapping())
+            createMap(Foo.class, Bar.class, new FooMapping())
+            def fooList = FooComplexList.newInstance(new Foo("Hello", 12345))
+        when:
+            def barList = map(fooList, BarComplexList.class)
+        then:
+            assertAllTrue(fooList.getList(), barList.getList(), checkThatListItemsAreAllEqual()
+        )
+    }
+
+    def "test field mapping handler2"(){
+        given:
+            createMap(FooComplexList.class, BarComplexList.class)
+                    .forField("number", {source, destination ->for(int i = 0; i != source.getList().size(); i++){
+                destination.getList().get(i).setNum(source.getList().get(i).getNumber());
+            }})
             createMap(Foo.class, Bar.class, new FooMapping())
             def fooList = FooComplexList.newInstance(new Foo("Hello", 12345))
         when:
